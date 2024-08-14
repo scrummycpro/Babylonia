@@ -1,28 +1,86 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>Login</h2>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <div class="alert alert-{{ category }}">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-    <form method="POST" action="{{ url_for('login') }}">
-        <div class="mb-3">
-            <label for="email" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="email" name="email" required>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            background-image: url("{{ url_for('static', filename='images/login.png') }}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: #fff; /* Ensures that text is readable over the background */
+        }
+
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .title {
+            font-size: 64px;
+            margin-bottom: 30px;
+            font-family: 'Arial', sans-serif; /* Replace with any desired font */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .login-box {
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background for better readability */
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .form-control {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #fff;
+        }
+
+        .form-control::placeholder {
+            color: #ccc;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            width: 100%;
+        }
+    </style>
+
+    <div class="login-container">
+        <div class="title">Babylonia</div>
+        <div class="login-box">
+            <h2 class="text-center">Login</h2>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <form method="POST" action="{{ url_for('login') }}">
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="password" name="password" required>
+                        <button class="btn btn-outline-secondary" type="button" id="togglePassword">Show</button>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
         </div>
-        <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <div class="input-group">
-                <input type="password" class="form-control" id="password" name="password" required>
-                <button class="btn btn-outline-secondary" type="button" id="togglePassword">Show</button>
-            </div>
-        </div>
-        <button type="submit" class="btn btn-primary">Login</button>
-    </form>
+    </div>
+
     <script>
         document.getElementById('togglePassword').addEventListener('click', function () {
             const passwordField = document.getElementById('password');
