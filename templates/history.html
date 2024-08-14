@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Analysis History</h1>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Content</th>
+            <th>POS Tags</th>
+            <th>Trigrams</th>
+            <th>Timestamp</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for analysis in analyses %}
+        <tr>
+            <td>{{ analysis[0] }}</td>
+            <td>{{ analysis[1] }}</td>
+            <td>{{ analysis[2] }}</td>
+            <td>{{ analysis[3] }}</td>
+            <td>{{ analysis[4] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
