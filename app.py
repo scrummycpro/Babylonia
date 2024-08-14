@@ -1,3 +1,5 @@
+import io
+import csv
 from flask import Flask, render_template, redirect, url_for, flash, request, make_response
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
@@ -158,6 +160,28 @@ def export_recent_questions():
     response = make_response("\n".join(flat_questions))
     response.headers["Content-Disposition"] = "attachment; filename=recent_questions.txt"
     response.headers["Content-Type"] = "text/plain"
+    return response
+
+# Route to export selected questions to CSV
+@app.route('/export_selected_questions', methods=['POST'])
+@login_required
+def export_selected_questions():
+    selected_questions = request.form.getlist('selected_questions')
+
+    if not selected_questions:
+        flash('No questions selected for export.', 'warning')
+        return redirect(url_for('recent_questions'))
+
+    # Create CSV file response
+    output = io.StringIO()
+    writer = csv.writer(output)
+    writer.writerow(['Question'])
+    for question in selected_questions:
+        writer.writerow([question])
+
+    response = make_response(output.getvalue())
+    response.headers["Content-Disposition"] = "attachment; filename=selected_questions.csv"
+    response.headers["Content-Type"] = "text/csv"
     return response
 
 if __name__ == '__main__':

@@ -2,16 +2,21 @@
 
 {% block content %}
     <h2>Recent Questions</h2>
-    <a href="{{ url_for('export_recent_questions') }}" class="btn btn-primary mb-3">Export Questions</a>
-    <div class="question-container">
-        {% for question in questions %}
-            <div class="card question-card">
-                <div class="card-body">
-                    <p class="card-text">{{ question }}</p>
+    <form action="{{ url_for('export_selected_questions') }}" method="POST">
+        <div class="mb-3">
+            <button type="submit" class="btn btn-primary">Export Selected to CSV</button>
+        </div>
+        <div class="question-container">
+            {% for question in questions %}
+                <div class="card question-card">
+                    <div class="card-body">
+                        <input type="checkbox" name="selected_questions" value="{{ question }}">
+                        <p class="card-text">{{ question }}</p>
+                    </div>
                 </div>
-            </div>
-        {% endfor %}
-    </div>
+            {% endfor %}
+        </div>
+    </form>
 {% endblock %}
 
 {% block styles %}
@@ -36,6 +41,12 @@
         }
         .card-body {
             padding: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .card-text {
+            margin-left: 10px;
+            flex-grow: 1;
         }
     </style>
 {% endblock %}
